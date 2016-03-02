@@ -1,3 +1,19 @@
+body{
+    background-color: black;
+}
+
+h1{
+  color: white;
+  font-family: 'Avenir', sans-serif;
+  font-size: 24pt;
+}
+
+h2{
+  color: white;
+  font-family: 'Avenir', sans-serif;
+  font-size: 12pt;
+}
+
 #map {
   height: 800px;
   width: 80%;
@@ -13,12 +29,15 @@
 
 .range-slider {
     width: 50%;
+    color: white;
 }
 
 #forward {
+    transform: scale(.8);
     float: right;
 }
 
 #reverse {
     float: left;
+    transform: scale(.8);
 }
