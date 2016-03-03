@@ -1,4 +1,4 @@
-//GOAL: Proportional symbols representing attribute values of mapped features
+//fifth interaction operator is in choropleth.js
 
 //1. Create the Leaflet map--done (in createMap())
 function createMap(){
@@ -18,6 +18,7 @@ function createMap(){
 
       //call getData function
       getData(map);
+      statesData(map);
 };
 
 //Build an attributes array from the data
@@ -68,14 +69,14 @@ function pointToLayer(feature, latlng, attributes){
     var layer = L.circleMarker(latlng, propSymbol);
 
     //origina popupContent changed to panelContent...Example 2.2 line 1
-    var panelContent = "<p><b>City:</b> " + feature.properties.City + "</p>";
+    //var panelContent = "<p><b>City:</b> " + feature.properties.City + "</p>";
 
     //add formatted attribute to panel content string
     var year = attribute;
-    panelContent += "<p><b>Year" + year + ":</b> " + feature.properties[attribute] + "</p>";
+    //panelContent += "<p><b>Year" + year + ":</b> " + feature.properties[attribute] + "</p>";
 
     //popup content is now just the city name
-    var popupContent = feature.properties.year;
+    var popupContent = feature.properties.City;
 
     //bind the popup to the circle marker
     layer.bindPopup(popupContent, {
@@ -171,10 +172,11 @@ function createSequenceControls(map, attributes){
 };
 
 function updatePropSymbols(map, attribute){
-    map.eachLayer(function(layer){
+  map.eachLayer(function(layer){
         if (layer.feature && layer.feature.properties[attribute]){
             //access feature properties
             var props = layer.feature.properties;
+            console.log(props)
 
             //update each feature's radius based on new attribute values
             var radius = calcPropRadius(props[attribute]);
@@ -184,19 +186,18 @@ function updatePropSymbols(map, attribute){
             var popupContent = "<p><b>City:</b> " + props.City + "</p>";
 
             //add formatted attribute to panel content string
-            var year = attribute.split("_")[1];
-            popupContent += "<p><b>Population in " + year + ":</b> " + props[attribute] + " million</p>";
+            var year = attribute
+            popupContent += "<p><b>Deaths in " + year + ":</b> " + props[attribute] + " </p>";
 
             //replace the layer popup
             layer.bindPopup(popupContent, {
                 offset: new L.Point(0,-radius)
-              };
+              });
         };
     });
 };
 
-// 2. Import GeoJSON data--done (in getData())
-// call getData function
+// 2. Import GeoJSON data--done (in getData()) and call getData function
 function getData(map){
     //load the data
     $.ajax("data/CityMurders.geojson", {
@@ -213,5 +214,3 @@ function getData(map){
 };
 
 $(document).ready(createMap);
-
-//how do I get my year attributes to show up?
