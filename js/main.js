@@ -1,5 +1,3 @@
-//fifth interaction operator is in choropleth.js
-
 //1. Create the Leaflet map--done (in createMap())
 function createMap(){
     //create the map
@@ -169,6 +167,24 @@ function createSequenceControls(map, attributes){
 
         updatePropSymbols(map, attributes[index]);
     });
+
+    // var SequenceControl = L.Control.extend({
+    //     options: {
+    //         position: 'bottomleft'
+    //     },
+    //
+    //     onAdd: function (map) {
+    //         // create the control container div with a particular class name
+    //         var container = L.DomUtil.create('div', 'sequence-control-container');
+    //
+    //         // ... initialize other DOM elements, add listeners, etc.
+    //         //create range input element (slider)
+    //         $(container).append('<input class="range-slider" type="range">');
+    //
+    //         return container;
+    //     }
+    // });
+    // map.addControl(new SequenceControl());
 };
 
 function updatePropSymbols(map, attribute){
@@ -197,6 +213,109 @@ function updatePropSymbols(map, attribute){
     });
 };
 
+function createLegend(map, attributes){
+    var LegendControl = L.Control.extend({
+        options: {
+            position: 'bottomleft'
+        },
+
+        onAdd: function (map) {
+            // create the control container with a particular class name
+            var container = L.DomUtil.create('div', 'legend-control-container');
+
+            //add temporal legend div to container
+            $(container).append('<div id="temporal-legend">')
+
+            //Step 1: start attribute legend svg string
+            var svg = '<svg id="attribute-legend" width="180px" height="120px">';
+
+            //array of circle names to base loop on
+            var circles = ["max", "mean", "min"];
+
+            //Step 2: loop to add each circle and text to svg string
+            for (var i=0; i<circles.length; i++){
+            //circle string
+            svg += '<circle class="legend-circle" id="' + circles[i] +
+            '" fill="#e73019" fill-opacity="0.9" stroke="#000000" cx="60"/>';
+
+
+            //text string
+            svg += '<text id="' + circles[i] + '-text" x="65" y="60"></text>';
+            };
+
+            //close svg string
+            svg += "</svg>";
+
+            //add attribute legend svg to container
+            $(container).append(svg);
+
+            return container;
+        }
+    });
+    map.addControl(new LegendControl());
+    updateLegend(map, attributes[0]);
+};
+
+//Calculate the max, mean, and min values for a given attribute
+function getCircleValues(map, attribute){
+    //start with min at highest possible and max at lowest possible number
+    var min = Infinity,
+        max = -Infinity;
+
+    map.eachLayer(function(layer){
+        //get the attribute value
+        if (layer.feature){
+            var attributeValue = Number(layer.feature.properties[attribute]);
+
+            //test for min
+            if (attributeValue < min){
+                min = attributeValue;
+            };
+
+            //test for max
+            if (attributeValue > max){
+                max = attributeValue;
+            };
+        };
+    });
+
+    //set mean
+    var mean = (max + min) / 2;
+
+    //return values as an object
+    return {
+        max: max,
+        mean: mean,
+        min: min
+    };
+};
+
+//Update the legend with new attribute
+function updateLegend(map, attribute){
+    //create content for legend
+    var year = attribute;
+    var content = "Number of Deaths in " + year;
+
+    //replace legend content
+    $('#temporal-legend').html(content);
+
+    //get the max, mean, and min values as an object
+    var circleValues = getCircleValues(map, attribute);
+
+    for (var key in circleValues){
+        //get the radius
+        var radius = calcPropRadius(circleValues[key]);
+
+        //Step 3: assign the cy and r attributes
+        $('#'+key).attr({
+            cy: 120 - radius,
+            r: radius
+        });
+        //Step 4: add legend text
+        $('#'+key+'-text').text(Math.round(circleValues[key]*100)/100 + "");
+      };
+};
+
 // 2. Import GeoJSON data--done (in getData()) and call getData function
 function getData(map){
     //load the data
@@ -209,8 +328,11 @@ function getData(map){
             //call function to create proportional symbols
             createpropSymbols(response, map, attributes);
             createSequenceControls(map, attributes);
+            createLegend(map, attributes);
         }
     });
 };
+
+
 
 $(document).ready(createMap);
