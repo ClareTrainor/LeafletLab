@@ -84,3 +84,8 @@ h2{
     opacity: .8;
     border-radius: 5px;
 }
+
+.choropleth-container {
+  background-color: gray;
+  opacity: .6;
+}

@@ -2,7 +2,7 @@
 //Overlay of Federal Firearm Background Checks
 
 
-//this imports our geojson data of the state information
+//imports our geojson data of the state information
 function statesData(map){
     //load the data
     $.ajax("data/checks.geojson", {
@@ -11,7 +11,7 @@ function statesData(map){
 
           var a = L.geoJson(response, {style: style});
 
-           var overlayMaps = {
+          var overlayMaps = {
              "Background Checks": a,
            };
 
@@ -20,7 +20,7 @@ function statesData(map){
     });
 };
 
-//Here we add colors to the class breaks
+//adds colors to the class breaks
 function getColor(d) {
     return d > 1500000 ? '#084594' :
            d > 1000000  ? '#2171b5' :
@@ -32,15 +32,37 @@ function getColor(d) {
                       '#f7fbff';
 }
 
+//calls out colors and adds them ot the states
 function style(feature) {
     return {
         fillColor: getColor(feature.properties.Checks),
-        weight: 2,
+        weight: 1,
         opacity: 1,
         color: 'white',
         dashArray: '3',
         fillOpacity: 0.9
     };
 }
+
+// function createlegend2(map, d){
+//       var LegendControl2 = L.Control.extend({
+//         options: {
+//             position: 'bottomleft'
+//         },
+//
+//         onAdd: function (map) {
+//             // create the legend container with a particular class name
+//             var container2 = L.DomUtil.create('div', 'choropleth-legend');
+//
+//             //add temporal legend div to container
+//             $(container).append('<div id="temporal-legend">')
+//
+//             return container2;
+//         }
+//     });
+//     map.addControl(new LegendControl());
+//     updateLegend(map, d[0]);
+// };
+
 
 $(document).ready(createMap);
