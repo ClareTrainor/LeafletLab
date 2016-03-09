@@ -149,7 +149,7 @@ function createSequenceControls(map, attributes){
 
       //pass new attribute to update symbols
       updatePropSymbols(map, attributes[index]);
-      updateLegend(map, attributes[0]);
+      updateLegend(map, attributes[index]);
     });
 
     //input listener for slider
@@ -293,7 +293,7 @@ function updateLegend(map, attributes){
 
     $('#temporal-legend').html(content);
 
-    var circleValues = getCircleValues(map, attribute);
+    var circleValues = getCircleValues(map, attributes);
 
     for (var key in circleValues){
         //get the radius
@@ -308,7 +308,5 @@ function updateLegend(map, attributes){
         $('#'+key+'-text').text(Math.round(circleValues[key]*100)/100);
       };
 };
-
-
 
 $(document).ready(createMap);
