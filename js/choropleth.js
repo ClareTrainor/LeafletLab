@@ -26,7 +26,7 @@ function getColor(d) {
            d > 1000000  ? '#2171b5' :
            d > 500000  ? '#4292c6' :
            d > 100000  ? '#6baed6' :
-           d > 500000   ? '#9ecae1' :
+           d > 50000   ? '#9ecae1' :
            d > 10000   ? '#c6dbef' :
            d > 1000   ? '#deebf7' :
                       '#f7fbff';
@@ -44,25 +44,7 @@ function style(feature) {
     };
 }
 
-// function createlegend2(map, d){
-//       var LegendControl2 = L.Control.extend({
-//         options: {
-//             position: 'bottomleft'
-//         },
-//
-//         onAdd: function (map) {
-//             // create the legend container with a particular class name
-//             var container2 = L.DomUtil.create('div', 'choropleth-legend');
-//
-//             //add temporal legend div to container
-//             $(container).append('<div id="temporal-legend">')
-//
-//             return container2;
-//         }
-//     });
-//     map.addControl(new LegendControl());
-//     updateLegend(map, d[0]);
-// };
+
 
 
 $(document).ready(createMap);
