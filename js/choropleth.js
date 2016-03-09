@@ -1,7 +1,8 @@
-//fifth interaction operator
+//This is my fifth interaction operator
+//Overlay of Federal Firearm Background Checks
 
 
-// Import GeoJSON data--done (in getData()) and call getData function
+//this imports our geojson data of the state information
 function statesData(map){
     //load the data
     $.ajax("data/checks.geojson", {
@@ -14,12 +15,12 @@ function statesData(map){
              "Background Checks": a,
            };
 
-          L.control.layers(null, overlayMaps).addTo(map);
-
+           L.control.layers(null, overlayMaps).addTo(map);
         }
     });
 };
 
+//Here we add colors to the class breaks
 function getColor(d) {
     return d > 1500000 ? '#084594' :
            d > 1000000  ? '#2171b5' :

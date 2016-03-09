@@ -4,31 +4,41 @@ body{
 
 h1{
   color: white;
+  font-weight: bold;
   font-family: 'Avenir', sans-serif;
-  font-size: 24pt;
+  font-size: 28pt;
+  height: 35px;
 }
 
 h2{
   color: white;
   font-family: 'Avenir', sans-serif;
-  font-size: 12pt;
+  font-size: 18pt;
+}
+
+.header{
+  height: auto;
 }
 
 #map {
-  height: 550px;
-  width:80%;
+  height: 540px;
+  width:75%;
   display: inline-block;
+  font-family: 'Avenir', sans-serif;
 }
 
 #panel {
-    width: 16%;
-    padding: 20px;
+    width: 22%;
+    padding: 0px;
+    margin: 10px;
+    margin-top: 0px;
+    margin-bottom: 0px;
     display: inline-block;
     vertical-align: top;
 }
 
 .range-slider {
-    width: 50%;
+    width: 68%;
     color: white;
 }
 
@@ -44,17 +54,33 @@ h2{
 
 .sequence-control-container, .legend-control-container {
 	background-color: gray;
-  opacity: .5;
-	padding: 25px;
+  opacity: .6;
+	padding: 10px;
 	text-align: center;
 	border: solid gray 1px;
-};
-
-
-#temporal-legend {
-	font-weight: bold;
 	font-size: 1.5em;
   font-family: 'Avenir', sans-serif;
-  color: white;
-  font-size: 24pt;
+  border-radius: 5px;
+}
+
+#temporal-legend{
+  font-family: 'Avenir', sans-serif;
+}
+
+.text {
+    margin-top: 0px;
+    margin-left: 0px;
+    padding-left: 10px;
+    padding-right: 10px;
+    width: 255px;
+    float: right;
+    display: inline-block;
+    margin-right: 0px;
+    margin-left: 0px;
+    font-family: 'Avenir', sans-serif;
+    color: black;
+    font-size: 12pt;
+    background-color: gray;
+    opacity: .8;
+    border-radius: 5px;
 }

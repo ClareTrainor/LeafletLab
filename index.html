@@ -15,16 +15,28 @@
 
 	<body>
 		<!--put your initial page content here-->
-		<h1><center>Gun Deaths in the United States</center></h1>
-		<h2><center>A look at cities with the highest rate of gun deaths in the United States from 2008 to 2014 </center></h2>
+		<div class="header">
+			<h1><center>Homicides in the United States</center></h1>
+			<h2><center>Exploring murders and firearm background checks in United States from 2008 to 2014 </center></h2>
+		</div>
 
 		<!--you can also use this space for internal scripts or stylesheets;
 		place these within <script> or <style> tags-->
 		<div id="map"></div>
-		<div id="panel"></div>
+		<div id="panel">
+			<div class="text" align="left">
+				<p>Today there are more guns than people in the United States and over 68 percent of homicides result from firearms. This map looks at metropolitan cities that had a high numbers of homicides from 2008-2014.
+				</p>
+				<p> This map also includes an overlay of the amount of federal firearm background checks that were conducted in 2015 by each state. This comparison can help determine if background checks for guns are in fact helping reduce the amount of homicides occurring throughout cities the United States.
+				</p>
+				<p>This data was provided by the FBI’s <a href="https://www.fbi.gov/about-us/cjis/ucr/crime-in-the-u.s/2014/crime-in-the-u.s.-2014/offenses-known-to-law-enforcement/murder">Uniform Crime Report</a> and <a href="https://www.fbi.gov/about-us/cjis/nics/reports/nics_firearm_checks_-_month_year_by_state.pdf">National Instant Background Check System.</a>
+				</p>
+				</div>
+		</div>
 		<div id="reverse"></div>
 		<div id="forward"></div>
 		<div id="temporal-legend"></div>
+
 
 		<!--put your external script links here-->
 		<script type="text/javascript" src="lib/jquery-1.12.0.js"></script>

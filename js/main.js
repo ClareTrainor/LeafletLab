@@ -1,20 +1,22 @@
-//1. Create the Leaflet map--done (in createMap())
+//this fuction creates our leaflet map
 function createMap(){
-    //create the map
+    //create the map and create the what zoom level and center it will be at
     var map = L.map('map', {
-      center: [30, -98],
+      center: [34, -98],
       zoom: 4
       });
 
-    //add OSM base tilelayer
-
+    //adding OSM base tilelayer by CartoDB
     L.tileLayer('http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
       subdomains: 'abcd',
-      maxZoom: 19
       }).addTo(map);
 
-      //call getData function
+      //setting max and min zoom options so user doesn't stray away fro mthe map
+      map.options.maxZoom=12;
+      map.options.minZoom=3;
+
+      //call our data and put it on the map
       getData(map);
       statesData(map);
 };
@@ -90,9 +92,9 @@ function pointToLayer(feature, latlng, attributes){
         mouseout: function(){
             this.closePopup();
         },
-        click: function(){
-        $('#panel').html(popupContent);
-        }
+        // click: function(){
+        // $('#panel').html(popupContent);
+        // }
     });
     //return the circle marker to the L.geoJson pointToLayer option
     return layer;
@@ -131,7 +133,7 @@ function createSequenceControls(map, attributes){
       min: 0,
       value: 0,
       step: 1,
-    })
+    });
 
     $('#panel').append('<button class="skip" id="reverse">Reverse</button>');
     $('#panel').append('<button class="skip" id="forward">Skip</button>');
@@ -166,7 +168,10 @@ function createSequenceControls(map, attributes){
         var index = $(this).val();
 
         updatePropSymbols(map, attributes[index]);
+        updateLegend(map, attributes[3]);
     });
+
+
 
     // var SequenceControl = L.Control.extend({
     //     options: {
@@ -229,19 +234,34 @@ function createLegend(map, attributes){
             //Step 1: start attribute legend svg string
             var svg = '<svg id="attribute-legend" width="180px" height="120px">';
 
-            //array of circle names to base loop on
-            var circles = ["max", "mean", "min"];
-
-            //Step 2: loop to add each circle and text to svg string
-            for (var i=0; i<circles.length; i++){
-            //circle string
-            svg += '<circle class="legend-circle" id="' + circles[i] +
-            '" fill="#e73019" fill-opacity="0.9" stroke="#000000" cx="60"/>';
-
-
-            //text string
-            svg += '<text id="' + circles[i] + '-text" x="65" y="60"></text>';
+            //object to base loop
+            var circles = {
+                max: 30,
+                mean: 60,
+                min: 100
             };
+
+            //loop to add each circle and text to svg string
+            for (var circle in circles){
+                //circle string
+                svg += '<circle class="legend-circle" id="' + circle + '" fill="#e73019" fill-opacity="0.8" stroke="#000000" cx="70"/>';
+
+                //text string
+                svg += '<text id="' + circle + '-text" x="130" y="' + circles[circle] + '"></text>';
+            };
+            // //array of circle names to base loop on
+            // var circles = ["max", "mean", "min"];
+            //
+            // //Step 2: loop to add each circle and text to svg string
+            // for (var i=0; i<circles.length; i++){
+            // //circle string
+            // svg += '<circle class="legend-circle" id="' + circles[i] +
+            // '" fill="#e73019" fill-opacity="0.9" stroke="#000000" cx="60"/>';
+            //
+            //
+            // //text string
+            // svg += '<text id="' + circles[i] + '-text" x="65" y="60"></text>';
+            // };
 
             //close svg string
             svg += "</svg>";
@@ -292,9 +312,9 @@ function getCircleValues(map, attribute){
 
 //Update the legend with new attribute
 function updateLegend(map, attribute){
+    var year = attribute[2];
     //create content for legend
-    var year = attribute;
-    var content = "Number of Deaths in " + year;
+    var content = "Number of Homicides in " + year;
 
     //replace legend content
     $('#temporal-legend').html(content);
@@ -332,7 +352,5 @@ function getData(map){
         }
     });
 };
-
-
 
 $(document).ready(createMap);
